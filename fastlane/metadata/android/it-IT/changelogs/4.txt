@@ -1,0 +1,5 @@
+• Protezione opzionale con PIN dopo lo slider di sblocco
+• Lunghezza del PIN configurabile (da 3 a 8 cifre)
+• Blocco temporaneo anti brute-force e chiusura automatica dopo 12s di inattività
+• Traduzioni aggiornate e supporto alla lingua ucraina
+• Aggiornamento degli strumenti di build Gradle

@@ -249,6 +249,6 @@ class PinPadView @JvmOverloads constructor(
         private const val SHAKE_OFFSET = 24f
         private const val MAX_ATTEMPTS_BEFORE_LOCKOUT = 5
         private const val LOCKOUT_DURATION_MS = 30_000L
-        private const val INACTIVITY_TIMEOUT_MS = 20_000L
+        private const val INACTIVITY_TIMEOUT_MS = 12_000L
     }
 }

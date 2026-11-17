@@ -1,0 +1,5 @@
+• Optional PIN protection after unlock slider
+• Configurable PIN length (3 to 8 digits)
+• Brute-force lockout and 12-second auto-dismiss on inactivity
+• Updated translations and Ukrainian language support
+• Updated Gradle build tools
