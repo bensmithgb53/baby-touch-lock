@@ -41,6 +41,8 @@ Tiny toddler hands love holding the screen by the edges, tapping everywhere, swi
 - **Instant Screen Wake on Power Button**: Automatically turns the screen back on if the power button is accidentally pressed.
 - **Quick Settings Tile**: Fast 1-tap activation right from the Android notification drawer.
 - **Child-Proof Unlock Slider**: Vertical slide-to-unlock mechanism placed out of the way to prevent accidental unlocking by children.
+- **Optional PIN Protection**: Configurable 3–8 digit PIN required after sliding to unlock, featuring brute-force lockout and an automatic 12-second inactivity timeout.
+- **Multi-Language Support**: Fully localized into 15+ languages including Ukrainian, Italian, Spanish, German, French, Arabic, Chinese, and more.
 - **100% Offline & Private**: Zero network permissions, zero tracking, zero analytics, zero ads.
 
 ---
@@ -65,14 +67,18 @@ Install from **F-Droid** (recommended for automatic updates) or download the lat
 1. **Grant Accessibility Permission**:
    - Open **Baby Touch Lock**.
    - Tap **Enable Service** to open Android Settings and enable **Baby Touch Lock Service** under **Accessibility**.
-2. **Add Quick Settings Tile**:
+2. **Configure Settings (Optional)**:
+   - Toggle **Block Volume Buttons** to prevent toddlers from changing the sound volume.
+   - Toggle **Wake Screen on Power** to keep the screen on if the power button is accidentally pressed.
+   - Enable **Require PIN to Unlock** to set a 3–8 digit PIN code for extra security.
+3. **Add Quick Settings Tile**:
    - Tap the **Add** button in the **Quick Settings** section.
    - Swipe down twice from the top of your screen to expand the Quick Settings panel.
    - Tap the pencil icon ✏️.
    - Find the **Baby Lock** tile and drag it to your active tiles.
-3. **Lock & Unlock**:
+4. **Lock & Unlock**:
    - **To Lock**: Start any video or cartoon, pull down your notification tray, and tap the **Baby Lock** tile. The screen, gestures, volume keys, and notification shade are now securely locked.
-   - **To Unlock**: Firmly slide the vertical unlock handle upwards to disengage the lock.
+   - **To Unlock**: Firmly slide the vertical unlock handle upwards to disengage the lock. If PIN protection is enabled, enter your PIN on the keypad to complete unlocking.
 
 ---
 
@@ -83,7 +89,7 @@ Install from **F-Droid** (recommended for automatic updates) or download the lat
 - **Build Requirements**:
   - Android SDK (API 36 / `compileSdk = 36`)
   - JDK 17+
-  - Gradle 8.4+ (included via wrapper)
+  - Gradle 8.14+ (included via wrapper: 8.14.3)
 
 ### Building from Source
 
@@ -101,6 +107,7 @@ The resulting APK will be placed in `app/build/outputs/apk/debug/app-debug.apk`.
 | :--- | :--- |
 | `BIND_ACCESSIBILITY_SERVICE` | Used to filter touch events, navigation bar gestures, and hardware keys while the lock overlay is engaged. Does **not** read screen contents (`canRetrieveWindowContent="false"`). |
 | `BIND_QUICK_SETTINGS_TILE` | Exposes the quick toggle shortcut in the Android quick settings drawer. |
+| `EXPAND_STATUS_BAR` | Used to reliably collapse the notification shade and status bar when engaging the lock on Android 11 and earlier. |
 | `VIBRATE` | Provides haptic feedback when the screen is unlocked. |
 | `WAKE_LOCK` | Briefly wakes the screen if the Power Wake option is enabled. |
 | **`INTERNET`** | **NOT REQUESTED.** The app cannot access the network. |
