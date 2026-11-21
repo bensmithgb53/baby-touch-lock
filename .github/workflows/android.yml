@@ -1,0 +1,53 @@
+# Builds the debug APK manually from Actions > Android > Run workflow.
+# It does not run on push, publish releases, or modify the Android source.
+name: Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      tests:
+        description: 'Run unit tests first (slower)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platforms;android-36.0 build-tools;36.0.0'
+
+      - name: Run unit tests
+        if: ${{ inputs.tests }}
+        run: ./gradlew testDebugUnitTest
+
+      - name: Build debug APK
+        run: ./gradlew --no-daemon assembleDebug
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/BabyTouchLock-${GITHUB_RUN_NUMBER}.apk"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: BabyTouchLock-${{ github.run_number }}
+          path: app/build/outputs/apk/debug/BabyTouchLock-*.apk
+          if-no-files-found: error
+          retention-days: 14
