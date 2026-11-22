@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         setupVolumeSwitch()
         setupPowerWakeSwitch()
         setupLongPressUnlockSwitch()
+        setupActivationDelaySwitch()
         setupPinSwitch()
         setupButtons()
         checkPermissionsUI()
@@ -95,6 +96,22 @@ class MainActivity : AppCompatActivity() {
             val msg = getString(
                 R.string.setting_state_format,
                 getString(R.string.long_press_unlock_label),
+                state
+            )
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupActivationDelaySwitch() {
+        val isEnabled = PreferencesManager.isActivationDelayEnabled(this)
+        binding.switchActivationDelay.isChecked = isEnabled
+
+        binding.switchActivationDelay.setOnCheckedChangeListener { _, isChecked ->
+            PreferencesManager.setActivationDelayEnabled(this, isChecked)
+            val state = getString(if (isChecked) R.string.state_on else R.string.state_off)
+            val msg = getString(
+                R.string.setting_state_format,
+                getString(R.string.activation_delay_label),
                 state
             )
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()

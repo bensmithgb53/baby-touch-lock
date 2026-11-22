@@ -72,7 +72,13 @@ class BabyTouchLockTileService : TileService() {
             }
 
             // 2. Engage screen lock after delay allowing system shade to finish collapsing
-            val delay = resources.getInteger(R.integer.collapse_delay_long_ms).toLong()
+            val collapseDelay = resources.getInteger(R.integer.collapse_delay_long_ms).toLong()
+            val activationDelay = if (PreferencesManager.isActivationDelayEnabled(this)) {
+                ACTIVATION_DELAY_MS
+            } else {
+                0L
+            }
+            val delay = collapseDelay + activationDelay
             service.lock(delayMs = delay)
             updateTileState(true)
         }
@@ -138,6 +144,7 @@ class BabyTouchLockTileService : TileService() {
     }
 
     companion object {
+        private const val ACTIVATION_DELAY_MS = 5_000L
         private var activeInstance: BabyTouchLockTileService? = null
 
         /**
@@ -157,4 +164,3 @@ class BabyTouchLockTileService : TileService() {
         }
     }
 }
-

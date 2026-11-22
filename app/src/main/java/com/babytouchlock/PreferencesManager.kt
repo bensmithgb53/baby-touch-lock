@@ -34,6 +34,7 @@ object PreferencesManager {
     const val PREF_BLOCK_VOLUME = "pref_block_volume"
     const val PREF_AUTO_WAKE_POWER = "pref_auto_wake_power"
     const val PREF_LONG_PRESS_UNLOCK = "pref_long_press_unlock"
+    const val PREF_DELAY_ACTIVATION = "pref_delay_activation"
     const val PREF_TILE_ADDED = "pref_tile_added"
     const val PREF_PIN_ENABLED = "pref_pin_enabled"
     private const val PREF_PIN_HASH = "pref_pin_hash"
@@ -90,6 +91,21 @@ object PreferencesManager {
      */
     fun setLongPressUnlockEnabled(context: Context, enabled: Boolean) {
         getPrefs(context).edit().putBoolean(PREF_LONG_PRESS_UNLOCK, enabled).apply()
+    }
+
+    /**
+     * Checks whether the Quick Settings activation should wait five seconds.
+     * Default: false (off, preserving the original immediate behavior).
+     */
+    fun isActivationDelayEnabled(context: Context): Boolean {
+        return getPrefs(context).getBoolean(PREF_DELAY_ACTIVATION, false)
+    }
+
+    /**
+     * Sets whether Quick Settings activation should wait five seconds.
+     */
+    fun setActivationDelayEnabled(context: Context, enabled: Boolean) {
+        getPrefs(context).edit().putBoolean(PREF_DELAY_ACTIVATION, enabled).apply()
     }
 
     /**

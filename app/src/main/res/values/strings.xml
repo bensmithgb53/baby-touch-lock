@@ -30,6 +30,8 @@
     <string name="power_lock_switch_desc">Instantly turns the screen back on if the Power button is pressed</string>
     <string name="long_press_unlock_label">Hold 5 Seconds to Unlock</string>
     <string name="long_press_unlock_desc">Hold the lock icon for five seconds before the unlock slider appears</string>
+    <string name="activation_delay_label">Delay Lock Activation</string>
+    <string name="activation_delay_desc">Wait five seconds after tapping Baby Lock before blocking touches</string>
 
     <!-- Section: Quick Access -->
     <string name="section_quick_access_title">QUICK ACCESS</string>
