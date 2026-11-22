@@ -22,6 +22,8 @@ package com.babytouchlock
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -45,6 +47,9 @@ class BabyTouchLockUnlockView @JvmOverloads constructor(
     private var sliderContainer: FrameLayout? = null
     private var sliderThumb: TextView? = null
     private var onUnlockConfirmed: (() -> Unit)? = null
+    private val revealHandler = Handler(Looper.getMainLooper())
+    private var isSliderRevealed = false
+    private var isRevealCancelled = false
 
     init {
         isFocusable = false
@@ -70,6 +75,9 @@ class BabyTouchLockUnlockView @JvmOverloads constructor(
      * Resets the widget to its initial collapsed state showing only the floating lock icon.
      */
     fun resetToInitialState() {
+        revealHandler.removeCallbacksAndMessages(null)
+        isSliderRevealed = false
+        isRevealCancelled = false
         btnFloatingUnlock?.visibility = View.VISIBLE
         btnFloatingUnlock?.alpha = 0.5f
         sliderContainer?.visibility = View.GONE
@@ -84,27 +92,48 @@ class BabyTouchLockUnlockView @JvmOverloads constructor(
         var maxDragDistance = 0f
         var isUnlockedTriggered = false
 
-        val touchListener = View.OnTouchListener { _, event ->
+        val touchListener = View.OnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     initialRawY = event.rawY
                     isUnlockedTriggered = false
 
-                    btnFloatingUnlock?.visibility = View.GONE
-                    sliderContainer?.visibility = View.VISIBLE
+                    if (view === btnFloatingUnlock && PreferencesManager.isLongPressUnlockEnabled(context)) {
+                        isRevealCancelled = false
+                        revealHandler.postDelayed({
+                            if (!isRevealCancelled) {
+                                isSliderRevealed = true
+                                btnFloatingUnlock?.visibility = View.GONE
+                                sliderContainer?.visibility = View.VISIBLE
+                                val trackH = sliderContainer?.height ?: 0
+                                val thumbH = sliderThumb?.height ?: 0
+                                val minDrag = resources.getDimension(R.dimen.slider_min_drag_distance)
+                                maxDragDistance = (trackH - thumbH - 16).toFloat().coerceAtLeast(minDrag)
+                                sliderThumb?.translationY = 0f
+                                sliderThumb?.text = context.getString(R.string.lock_icon_locked)
+                                sliderThumb?.alpha = 0.7f
+                            }
+                        }, UNLOCK_REVEAL_DELAY_MS)
+                        true
+                    } else {
+                        isSliderRevealed = true
+                        btnFloatingUnlock?.visibility = View.GONE
+                        sliderContainer?.visibility = View.VISIBLE
 
-                    val trackH = sliderContainer?.height ?: 0
-                    val thumbH = sliderThumb?.height ?: 0
-                    val minDrag = resources.getDimension(R.dimen.slider_min_drag_distance)
-                    maxDragDistance = (trackH - thumbH - 16).toFloat().coerceAtLeast(minDrag)
+                        val trackH = sliderContainer?.height ?: 0
+                        val thumbH = sliderThumb?.height ?: 0
+                        val minDrag = resources.getDimension(R.dimen.slider_min_drag_distance)
+                        maxDragDistance = (trackH - thumbH - 16).toFloat().coerceAtLeast(minDrag)
 
-                    sliderThumb?.translationY = 0f
-                    sliderThumb?.text = context.getString(R.string.lock_icon_locked)
-                    sliderThumb?.alpha = 0.7f
-                    true
+                        sliderThumb?.translationY = 0f
+                        sliderThumb?.text = context.getString(R.string.lock_icon_locked)
+                        sliderThumb?.alpha = 0.7f
+                        true
+                    }
                 }
 
                 MotionEvent.ACTION_MOVE -> {
+                    if (!isSliderRevealed) return@OnTouchListener true
                     if (isUnlockedTriggered) return@OnTouchListener true
 
                     val deltaY = event.rawY - initialRawY
@@ -126,6 +155,11 @@ class BabyTouchLockUnlockView @JvmOverloads constructor(
                 }
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    revealHandler.removeCallbacksAndMessages(null)
+                    if (!isSliderRevealed) {
+                        isRevealCancelled = true
+                        return@OnTouchListener true
+                    }
                     if (!isUnlockedTriggered) {
                         val animDuration = resources.getInteger(R.integer.slider_reset_anim_duration_ms).toLong()
                         sliderThumb?.animate()
@@ -147,5 +181,8 @@ class BabyTouchLockUnlockView @JvmOverloads constructor(
         sliderContainer?.setOnTouchListener(touchListener)
         sliderThumb?.setOnTouchListener(touchListener)
     }
-}
 
+    companion object {
+        private const val UNLOCK_REVEAL_DELAY_MS = 5_000L
+    }
+}

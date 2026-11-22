@@ -33,6 +33,7 @@ object PreferencesManager {
     private const val PREFS_NAME = "baby_touch_lock_prefs"
     const val PREF_BLOCK_VOLUME = "pref_block_volume"
     const val PREF_AUTO_WAKE_POWER = "pref_auto_wake_power"
+    const val PREF_LONG_PRESS_UNLOCK = "pref_long_press_unlock"
     const val PREF_TILE_ADDED = "pref_tile_added"
     const val PREF_PIN_ENABLED = "pref_pin_enabled"
     private const val PREF_PIN_HASH = "pref_pin_hash"
@@ -74,6 +75,21 @@ object PreferencesManager {
      */
     fun setAutoWakePowerEnabled(context: Context, enabled: Boolean) {
         getPrefs(context).edit().putBoolean(PREF_AUTO_WAKE_POWER, enabled).apply()
+    }
+
+    /**
+     * Checks whether revealing the unlock slider requires a five-second hold.
+     * Default: true (enabled).
+     */
+    fun isLongPressUnlockEnabled(context: Context): Boolean {
+        return getPrefs(context).getBoolean(PREF_LONG_PRESS_UNLOCK, true)
+    }
+
+    /**
+     * Sets whether the unlock slider must be revealed with a five-second hold.
+     */
+    fun setLongPressUnlockEnabled(context: Context, enabled: Boolean) {
+        getPrefs(context).edit().putBoolean(PREF_LONG_PRESS_UNLOCK, enabled).apply()
     }
 
     /**
@@ -152,4 +168,3 @@ object PreferencesManager {
         getPrefs(context).edit().putBoolean(PREF_TILE_ADDED, added).apply()
     }
 }
-

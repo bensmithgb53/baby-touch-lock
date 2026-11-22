@@ -28,6 +28,8 @@
     <string name="volume_lock_switch_desc">Prevents adjusting the volume while locked</string>
     <string name="power_lock_switch_label">Wake Screen on Power</string>
     <string name="power_lock_switch_desc">Instantly turns the screen back on if the Power button is pressed</string>
+    <string name="long_press_unlock_label">Hold 5 Seconds to Unlock</string>
+    <string name="long_press_unlock_desc">Hold the lock icon for five seconds before the unlock slider appears</string>
 
     <!-- Section: Quick Access -->
     <string name="section_quick_access_title">QUICK ACCESS</string>
