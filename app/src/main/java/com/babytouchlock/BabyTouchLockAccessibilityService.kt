@@ -74,6 +74,15 @@ class BabyTouchLockAccessibilityService : AccessibilityService() {
 
     private var pendingLockRunnable: Runnable? = null
 
+    /** Re-dismisses transient system UI that Android may reveal during a top-edge swipe. */
+    private val systemUiGuardRunnable = object : Runnable {
+        override fun run() {
+            if (!isLocked) return
+            collapseSystemUI()
+            handler.postDelayed(this, SYSTEM_UI_GUARD_INTERVAL_MS)
+        }
+    }
+
     val isPendingLockActive: Boolean
         get() = pendingLockRunnable != null
 
@@ -273,6 +282,8 @@ class BabyTouchLockAccessibilityService : AccessibilityService() {
             wm.addView(backgroundView, backgroundViewLayoutParams)
             wm.addView(unlockView, unlockViewLayoutParams)
             backgroundView?.requestApplyInsets()
+            handler.removeCallbacks(systemUiGuardRunnable)
+            handler.post(systemUiGuardRunnable)
         } catch (_: Exception) {}
     }
 
@@ -340,6 +351,7 @@ class BabyTouchLockAccessibilityService : AccessibilityService() {
     private fun hideLockWindows() {
         if (!isLocked) return
         isLocked = false
+        handler.removeCallbacks(systemUiGuardRunnable)
         BabyTouchLockTileService.updateTile(this, false)
 
         removePinPadWindow()
@@ -487,6 +499,7 @@ class BabyTouchLockAccessibilityService : AccessibilityService() {
          */
         @Suppress("DEPRECATION")
         private const val LEGACY_FLAG_FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN
+        private const val SYSTEM_UI_GUARD_INTERVAL_MS = 250L
 
         var instance: BabyTouchLockAccessibilityService? = null
         var isLocked = false

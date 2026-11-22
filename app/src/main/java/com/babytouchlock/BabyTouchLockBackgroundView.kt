@@ -73,10 +73,10 @@ class BabyTouchLockBackgroundView(
         @Suppress("DEPRECATION")
         systemUiVisibility = if (hideNavigation) {
             systemUiVisibility or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or
                     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         } else {
-            systemUiVisibility and
-                    (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION).inv()
+            systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         }
     }
 
@@ -91,4 +91,3 @@ class BabyTouchLockBackgroundView(
         return true
     }
 }
-
