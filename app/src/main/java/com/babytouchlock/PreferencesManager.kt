@@ -36,6 +36,7 @@ object PreferencesManager {
     const val PREF_LONG_PRESS_UNLOCK = "pref_long_press_unlock"
     const val PREF_DELAY_ACTIVATION = "pref_delay_activation"
     const val PREF_TILE_ADDED = "pref_tile_added"
+    const val PREF_BLOCK_GESTURES = "pref_block_nav_gestures"
     const val PREF_PIN_ENABLED = "pref_pin_enabled"
     private const val PREF_PIN_HASH = "pref_pin_hash"
     private const val PREF_PIN_SALT = "pref_pin_salt"
@@ -79,7 +80,7 @@ object PreferencesManager {
     }
 
     /**
-     * Checks whether revealing the unlock slider requires a five-second hold.
+     * Checks whether revealing the unlock slider requires a three-second hold.
      * Default: true (enabled).
      */
     fun isLongPressUnlockEnabled(context: Context): Boolean {
@@ -87,7 +88,7 @@ object PreferencesManager {
     }
 
     /**
-     * Sets whether the unlock slider must be revealed with a five-second hold.
+     * Sets whether the unlock slider must be revealed with a three-second hold.
      */
     fun setLongPressUnlockEnabled(context: Context, enabled: Boolean) {
         getPrefs(context).edit().putBoolean(PREF_LONG_PRESS_UNLOCK, enabled).apply()
@@ -106,6 +107,22 @@ object PreferencesManager {
      */
     fun setActivationDelayEnabled(context: Context, enabled: Boolean) {
         getPrefs(context).edit().putBoolean(PREF_DELAY_ACTIVATION, enabled).apply()
+    }
+
+    /**
+     * Checks if system navigation gestures (Home / Recents / notification shade edge swipes)
+     * should be blocked while locked, via touch exploration mode (Android 11+).
+     * Default: false (disabled).
+     */
+    fun isBlockGesturesEnabled(context: Context): Boolean {
+        return getPrefs(context).getBoolean(PREF_BLOCK_GESTURES, false)
+    }
+
+    /**
+     * Sets whether system navigation gestures should be blocked while locked.
+     */
+    fun setBlockGesturesEnabled(context: Context, enabled: Boolean) {
+        getPrefs(context).edit().putBoolean(PREF_BLOCK_GESTURES, enabled).apply()
     }
 
     /**

@@ -32,6 +32,9 @@
     <string name="long_press_unlock_desc">Hold the lock icon for three seconds before the unlock slider appears</string>
     <string name="activation_delay_label">Delay Lock Activation</string>
     <string name="activation_delay_desc">Wait five seconds after tapping Baby Lock before blocking touches</string>
+    <string name="power_lock_secure_hint">Your phone locks as soon as the screen turns off, so the lock screen may appear instead of the video. To return straight to the video, open Settings → Security → Screen lock settings and turn off \"Power button instantly locks\", or set a longer \"Lock after screen timeout\".\n\nPlayback paused by the power button is resumed automatically once the video is visible again.</string>
+    <string name="block_gestures_switch_label">Block Navigation Gestures</string>
+    <string name="block_gestures_switch_desc">Stops edge swipes from opening Home, Recents or notifications while locked</string>
 
     <!-- Section: Quick Access -->
     <string name="section_quick_access_title">QUICK ACCESS</string>
