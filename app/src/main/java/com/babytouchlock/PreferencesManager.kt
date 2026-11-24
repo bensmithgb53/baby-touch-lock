@@ -80,7 +80,7 @@ object PreferencesManager {
     }
 
     /**
-     * Checks whether revealing the unlock slider requires a three-second hold.
+     * Checks whether revealing the unlock slider requires a 1.5-second hold.
      * Default: true (enabled).
      */
     fun isLongPressUnlockEnabled(context: Context): Boolean {
@@ -88,7 +88,7 @@ object PreferencesManager {
     }
 
     /**
-     * Sets whether the unlock slider must be revealed with a three-second hold.
+     * Sets whether the unlock slider must be revealed with a 1.5-second hold.
      */
     fun setLongPressUnlockEnabled(context: Context, enabled: Boolean) {
         getPrefs(context).edit().putBoolean(PREF_LONG_PRESS_UNLOCK, enabled).apply()

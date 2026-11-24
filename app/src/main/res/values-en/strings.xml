@@ -28,8 +28,8 @@
     <string name="volume_lock_switch_desc">Prevents adjusting the volume while locked</string>
     <string name="power_lock_switch_label">Wake Screen on Power</string>
     <string name="power_lock_switch_desc">Instantly turns the screen back on if the Power button is pressed</string>
-    <string name="long_press_unlock_label">Hold 3 Seconds to Unlock</string>
-    <string name="long_press_unlock_desc">Hold the lock icon for three seconds before the unlock slider appears</string>
+    <string name="long_press_unlock_label">Hold 1.5 Seconds to Unlock</string>
+    <string name="long_press_unlock_desc">Hold the lock icon for 1.5 seconds before the unlock slider appears</string>
     <string name="activation_delay_label">Delay Lock Activation</string>
     <string name="activation_delay_desc">Wait five seconds after tapping Baby Lock before blocking touches</string>
     <string name="power_lock_secure_hint">Your phone locks as soon as the screen turns off, so the lock screen may appear instead of the video. To return straight to the video, open Settings → Security → Screen lock settings and turn off \"Power button instantly locks\", or set a longer \"Lock after screen timeout\".\n\nPlayback paused by the power button is resumed automatically once the video is visible again.</string>

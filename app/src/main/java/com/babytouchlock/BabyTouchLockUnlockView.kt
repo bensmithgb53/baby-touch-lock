@@ -183,6 +183,6 @@ class BabyTouchLockUnlockView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val UNLOCK_REVEAL_DELAY_MS = 3_000L
+        private const val UNLOCK_REVEAL_DELAY_MS = 1_500L
     }
 }
